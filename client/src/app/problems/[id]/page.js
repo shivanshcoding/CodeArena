@@ -4,10 +4,10 @@ import { useParams } from 'next/navigation';
 import axios from '../../../lib/api';
 import { runCode } from '../../../lib/judge';
 
-import ProblemHeader from '@/app/components/ProblemHeader.jsx';
-import CodeEditor from '@/app/components/CodeEditor.jsx';
-import OutputBox from '@/app/components/OutputBox.jsx';
-import SubmissionsList from '@/app/components/SubmissionsList.jsx';
+import ProblemHeader from '@/components/ProblemHeader.jsx';
+import CodeEditor from '@/components/CodeEditor.jsx';
+import OutputBox from '@/components/OutputBox.jsx';
+import SubmissionsList from '@/components/SubmissionsList.jsx';
 
 export default function ProblemPage() {
   const { id } = useParams();

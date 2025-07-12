@@ -1,10 +1,10 @@
-
 import './globals.css';
-import Link from 'next/link';
-import { AuthProvider } from '@/context/AuthContext'; // ✅ Make sure this path is correct
+import Navbar from '@/components/Navbar';
+import { AuthProvider } from '@/context/AuthContext';
 
 export const metadata = {
   title: 'CodeArena',
+  description: 'Your DSA playground',
 };
 
 export default function RootLayout({ children }) {
@@ -12,17 +12,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <AuthProvider>
-          {/* Navbar */}
-          <nav className="bg-black text-white px-4 py-3 flex justify-between items-center">
-            <Link href="/" className="text-xl font-bold">CodeArena</Link>
-            <div className="space-x-4">
-              <Link href="/problems">Problems</Link>
-              <Link href="/login">Login</Link>
-              <Link href="/register">Register</Link>
-            </div>
-          </nav>
-
-          {/* Page content */}
+          <Navbar />
           <main className="p-4">{children}</main>
         </AuthProvider>
       </body>
