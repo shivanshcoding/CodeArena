@@ -1,60 +1,90 @@
 .profile-dropdown-wrapper {
-  position: relative;
+    position: relative;
 }
 
 .profile-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .profile-dropdown {
-  position: absolute;
-  top: 44px;
-  right: 0;
-  background-color: #1e1e1e;
-  color: white;
-  border-radius: 10px;
-  padding: 1rem;
-  width: 260px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
+    position: absolute;
+    top: 44px;
+    right: 0;
+    background-color: #1e1e1e;
+    color: white;
+    border-radius: 10px;
+    padding: 1rem;
+    width: 350px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
 }
 
 .profile-name {
-  font-weight: bold;
-  font-size: 16px;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .profile-sub {
-  font-size: 12px;
-  color: #f9a825;
-  margin-bottom: 1rem;
+    font-size: 12px;
+    color: #f9a825;
+    margin-bottom: 1rem;
 }
 
 .profile-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+}
+
+.profile-grid>a {
+    background-color: grey;
+    text-align: center;
+    background: #2a2a2a;
+    border-radius: 10px;
+    padding: 0.8em;
+    cursor: pointer;
+    color: white;
+    font-size: 12px;
+    transition: background 0.3s;
+}
+
+.profile-grid>a:hover,
+.profile-tags>a:hover {
+    background: #333333;
+}
+
+.profile-tags>a {
+    background-color: grey;
+    text-indent: 20px;
+    background: #2a2a2a;
+    border-radius: 10px;
+    margin:10px 0px;
+    padding: 0.8em;
+    cursor: pointer;
+    color: white;
+    font-size: 12px;
+    transition: background 0.3s;
 }
 
 .profile-dropdown a {
-  display: block;
-  font-size: 14px;
-  padding: 5px 0;
-  color: white;
-  text-decoration: none;
+    display: block;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
 }
 
 .logout-btn {
-  background-color: #f44336;
-  border: none;
-  color: white;
-  width: 100%;
-  padding: 8px;
-  margin-top: 10px;
-  border-radius: 5px;
-  cursor: pointer;
+    background-color: #f44336;
+    border: none;
+    color: white;
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }

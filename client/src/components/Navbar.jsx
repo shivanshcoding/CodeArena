@@ -17,23 +17,19 @@ export default function Navbar() {
             </Link>
 
             <div className="flex items-center space-x-6">
-                <div className="flex items-center space-x-4">
-                    <Link href="/problems">Problems</Link>
-                    <ProfileDropdown />
-                </div>
+                <Link href="/problems" className="text-white hover:text-gray-300">Problems</Link>
+
 
                 {user ? (
                     <>
-                        <Link href={`/${user.username}`} className="hover:text-gray-300 transition">
-                            <div className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold">
-                                {user.username[0].toUpperCase()}
-                            </div>
-                        </Link>
+                        <div className="flex items-center space-x-4">
+                            <ProfileDropdown />
+                        </div>
                     </>
                 ) : (
                     <>
-                        <Link href="/login" className="hover:text-gray-300 transition">Login</Link>
-                        <Link href="/register" className="hover:text-gray-300 transition">Register</Link>
+                        <Link href="/login" className="text-white hover:text-gray-300">Login</Link>
+                        <Link href="/register" className="text-white hover:text-gray-300">Register</Link>
                     </>
                 )}
             </div>

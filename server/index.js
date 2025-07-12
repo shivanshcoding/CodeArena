@@ -5,7 +5,6 @@ import connectDB from './config/db.js';
 import questionRoutes from './routes/questionRoutes.js';
 import submissionRoutes from './routes/submissionRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-
 import authRoutes from './routes/authRoutes.js';
 
 dotenv.config();
