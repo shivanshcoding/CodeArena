@@ -1,4 +1,3 @@
-// File: /client/src/app/register/page.js
 'use client';
 import { useState } from 'react';
 import axios from '@/lib/api';
