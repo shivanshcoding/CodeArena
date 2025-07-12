@@ -3,6 +3,11 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import questionRoutes from './routes/questionRoutes.js';
+import submissionRoutes from './routes/submissionRoutes.js';
+
+import authRoutes from './routes/authRoutes.js';
+
+
 
 
 dotenv.config();
@@ -12,7 +17,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/questions', questionRoutes); // ✅ this should exist
+app.use('/api/submissions', submissionRoutes);
+app.use('/api/questions', questionRoutes);
+app.use('/api/auth', authRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 3000;
