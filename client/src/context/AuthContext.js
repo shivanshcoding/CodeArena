@@ -5,10 +5,12 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem('user');
     if (stored) setUser(JSON.parse(stored));
+    setIsHydrated(true);
   }, []);
 
   const login = (userData) => {
@@ -21,8 +23,16 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
   };
 
+  const updateUser = (newData) => {
+    const updated = { ...user, ...newData };
+    setUser(updated);
+    localStorage.setItem('user', JSON.stringify(updated));
+  };
+
+  if (!isHydrated) return null;
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
