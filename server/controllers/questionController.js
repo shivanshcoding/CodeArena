@@ -66,3 +66,26 @@ export const submitSolution = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const uploadTestCases = async (req, res) => {
+  const { id } = req.params;
+  const { testCases } = req.body; // Expecting array of {input, expectedOutput}
+
+  if (!Array.isArray(testCases)) {
+    return res.status(400).json({ message: 'Test cases must be an array' });
+  }
+
+  try {
+    const question = await Question.findById(id);
+    if (!question) return res.status(404).json({ message: 'Question not found' });
+
+    question.testCases = testCases;
+    await question.save();
+
+    res.json({ message: 'Test cases uploaded successfully', testCases });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+

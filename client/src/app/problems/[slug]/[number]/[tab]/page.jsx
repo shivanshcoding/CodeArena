@@ -9,6 +9,7 @@ import { useAuth } from '@/context/AuthContext';
 export default function ProblemTabPage() {
   const { slug, number, tab } = useParams();
   const [question, setQuestion] = useState(null);
+  const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [editorialInput, setEditorialInput] = useState('');
@@ -28,6 +29,16 @@ export default function ProblemTabPage() {
         });
     }
   }, [slug, number]);
+
+  useEffect(() => {
+    if (tab === 'submissions' && question?._id) {
+      axios.get(`/submissions/${question._id}`)
+        .then(res => setSubmissions(res.data))
+        .catch(err => {
+          console.error('Failed to fetch submissions:', err.message);
+        });
+    }
+  }, [tab, question?._id]);
 
   const submitEditorial = async () => {
     if (!editorialInput.trim()) return;
@@ -124,7 +135,38 @@ export default function ProblemTabPage() {
     }
 
     if (tab === 'submissions') {
-      return <p className="text-gray-400">Submissions feature coming soon.</p>;
+      return (
+        <div>
+          {submissions.length > 0 ? (
+            submissions.map((sub, idx) => (
+              <div key={idx} className="mb-4 border p-4 rounded bg-gray-800 text-white">
+                <p className="text-sm text-gray-300">
+                  Submitted on {new Date(sub.createdAt).toLocaleString()}
+                </p>
+                <p className="text-sm">Language: <strong>{sub.language}</strong></p>
+                <p className="text-sm">
+                  Verdict: <span className="font-bold text-green-400">{sub.verdict}</span>
+                </p>
+                <pre className="bg-black text-white p-2 mt-2 rounded">{sub.code}</pre>
+                {sub.output && (
+                  <div className="mt-2 text-sm">
+                    <strong>Output:</strong>
+                    <pre className="bg-gray-900 p-2 rounded">{sub.output}</pre>
+                  </div>
+                )}
+                {sub.error && (
+                  <div className="mt-2 text-sm text-red-400">
+                    <strong>Error:</strong>
+                    <pre className="bg-gray-900 p-2 rounded">{sub.error}</pre>
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-400 italic">No submissions found.</p>
+          )}
+        </div>
+      );
     }
 
     return <Markdown>{question.description}</Markdown>;

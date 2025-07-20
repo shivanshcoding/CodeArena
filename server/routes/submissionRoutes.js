@@ -5,5 +5,7 @@ const router = express.Router();
 
 router.post('/', submitCode);
 router.get('/:problemId', getSubmissionsByProblem);
+router.post('/submit', submitCode);
+
 
 export default router;

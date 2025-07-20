@@ -1,16 +1,47 @@
-'use client';
+"use client";
 import { createContext, useContext, useEffect, useState } from 'react';
+import axios from '@/lib/api';
+import { jwtDecode } from 'jwt-decode'; // ✅ fixed
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isHydrated, setIsHydrated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const stored = localStorage.getItem('user');
-    if (stored) setUser(JSON.parse(stored));
-    setIsHydrated(true);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const decoded = jwtDecode(token);
+      const now = Date.now() / 1000;
+      if (decoded.exp < now) {
+        logout();
+        return;
+      }
+    } catch (err) {
+      console.error('Invalid token:', err);
+      logout();
+      return;
+    }
+
+    axios
+      .get('/auth/me', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then((res) => {
+        setUser(res.data.user);
+      })
+      .catch(() => {
+        logout();
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const login = (userData) => {
@@ -21,18 +52,11 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
   };
-
-  const updateUser = (newData) => {
-    const updated = { ...user, ...newData };
-    setUser(updated);
-    localStorage.setItem('user', JSON.stringify(updated));
-  };
-
-  if (!isHydrated) return null;
 
   return (
-    <AuthContext.Provider value={{ user, setUser, login, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
