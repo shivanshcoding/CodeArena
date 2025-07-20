@@ -1,5 +1,6 @@
 @import "tailwindcss/preflight";
-@tailwind utilities;
+@import "tailwindcss/utilities";
+
 .input {
   @apply w-full px-4 py-2 border border-gray-300 text-black bg-white rounded-xl outline-none focus:ring-2 focus:ring-blue-400 transition;
 }

@@ -2,11 +2,12 @@
 module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/styles/**/*.{css}' // ✅ Corrected
   ],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui']
+        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
       },
       colors: {
         primary: '#2563eb',  // Blue-600
@@ -20,4 +21,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+};

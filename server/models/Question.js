@@ -1,29 +1,27 @@
 import mongoose from 'mongoose';
 
-const testCaseSchema = new mongoose.Schema({
-  input: String,
-  expectedOutput: String
-});
-
-const questionSchema = new mongoose.Schema({
-  number: { type: Number, unique: true },
-  slug: { type: String, unique: true },
-  title: String,
-  difficulty: String,
-  tags: [String],
-  description: String,
-  editorial: String,
-  solutions: [
-    {
-      content: String,
-      author: String,
-      createdAt: { type: Date, default: Date.now }
-    }
-  ],
-  testCases: [testCaseSchema],
-  adminOnly: { type: Boolean, default: false },
+const solutionSchema = new mongoose.Schema({
+  content: { type: String, required: true },
+  author: { type: String, default: 'Anonymous' },
   createdAt: { type: Date, default: Date.now }
 });
 
-const Question = mongoose.model('Question', questionSchema);
-export default Question;
+const testCaseSchema = new mongoose.Schema({
+  input: { type: String, required: true },
+  expectedOutput: { type: String, required: true }
+});
+
+const questionSchema = new mongoose.Schema({
+  number: { type: Number, required: true, unique: true },
+  slug: { type: String, required: true },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  difficulty: { type: String, enum: ['Easy', 'Medium', 'Hard'], required: true },
+  tags: [{ type: String }],
+  editorial: { type: String },
+  solutions: [solutionSchema],
+  testCases: [testCaseSchema],
+  solved: { type: Boolean, default: false }
+});
+
+export default mongoose.model('Question', questionSchema);
