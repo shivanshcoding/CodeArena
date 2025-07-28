@@ -1,10 +1,18 @@
 
 import express from 'express';
 import User from '../models/User.js';
+import { getUserProfile, updateUserProfile, getUserStats, getRecentSubmissions } from '../controllers/userController.js';
+import { verifyToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
+// Protected routes - require authentication
+router.get('/profile', verifyToken, getUserProfile);
+router.put('/profile', verifyToken, updateUserProfile);
+router.get('/stats', verifyToken, getUserStats);
+router.get('/submissions/recent', verifyToken, getRecentSubmissions);
 
+// Legacy route - consider migrating to /profile endpoint
 router.put('/update', async (req, res) => {
   const { email, username, age, institute, linkedin } = req.body;
 

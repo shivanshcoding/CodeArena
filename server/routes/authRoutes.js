@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import User from '../models/User.js';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
-import { authenticateJWT } from '../middleware/authMiddleware.js';
+import { authenticateJWT } from '../middleware/auth.js';
 
 
 const router = express.Router();
@@ -116,26 +116,36 @@ router.get('/google',
 
 router.get('/google/callback',
     passport.authenticate('google', {
-        failureRedirect: 'http://localhost:3000/register',
+        failureRedirect: 'http://localhost:3000/register?error=google_auth_failed',
         session: false, // ✅ Important: disables session usage
     }),
     (req, res) => {
-        const user = req.user;
+        try {
+            const user = req.user;
+            
+            if (!user || !user._id) {
+                console.error('Google auth callback: Invalid user object', user);
+                return res.redirect('http://localhost:3000/register?error=invalid_user_data');
+            }
 
-        // ✅ Generate JWT token
-        const token = jwt.sign({
-            id: user._id,
-            name: user.name,
-            email: user.email,
-            photo: user.photo,
-            age: user.age,
-            institute: user.institute,
-            linkedin: user.linkedin,
-            username: user.username
-        }, process.env.JWT_SECRET, { expiresIn: '7d' })
+            // ✅ Generate JWT token with all necessary user data
+            const token = jwt.sign({
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                photo: user.photo || '',
+                age: user.age || 0,
+                institute: user.institute || '',
+                linkedin: user.linkedin || '',
+                username: user.username || null
+            }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-        // ✅ Redirect to frontend with token in query
-        res.redirect(`http://localhost:3000/google-success?token=${token}`);
+            // ✅ Redirect to frontend with token in query
+            res.redirect(`http://localhost:3000/google-success?token=${token}`);
+        } catch (error) {
+            console.error('Google auth callback error:', error);
+            res.redirect('http://localhost:3000/register?error=server_error');
+        }
     }
 );
 

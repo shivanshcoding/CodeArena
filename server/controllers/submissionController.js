@@ -2,82 +2,68 @@ import axios from 'axios';
 import Submission from '../models/Submission.js';
 import Question from '../models/Question.js';
 
-const getJudge0LangId = (lang) => {
-  const map = {
-    cpp: 54,
-    python: 71,
-    java: 62,
-    js: 63,
-  };
-  return map[lang] || 71;
+const JUDGE0_URL = 'https://judge0-ce.p.rapidapi.com/submissions';
+const JUDGE0_OPTIONS = {
+  headers: {
+    'content-type': 'application/json',
+    'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
+    'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com',
+  },
 };
 
 export const submitCode = async (req, res) => {
-  const { userId, questionId, code, language } = req.body;
-
   try {
-    const question = await Question.findById(questionId);
-    if (!question) return res.status(404).json({ message: 'Question not found' });
+    const { questionSlug, questionNumber, sourceCode, language } = req.body;
 
-    const response = await axios.post(
-      'https://judge0-ce.p.rapidapi.com/submissions',
-      {
-        source_code: code,
-        language_id: getJudge0LangId(language),
-        stdin: question.testCases?.[0]?.input || '',
-        expected_output: question.testCases?.[0]?.expectedOutput || '',
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
-          'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com',
-        },
-      }
-    );
+    const question = await Question.findOne({ slug: questionSlug, number: questionNumber });
+    if (!question) return res.status(404).json({ error: 'Question not found' });
 
-    const token = response.data.token;
+    const testCases = question.testCases || [];
+    const results = [];
 
-    // Poll Judge0 until result is ready
-    let result;
-    for (let i = 0; i < 10; i++) {
-      const resultRes = await axios.get(
-        `https://judge0-ce.p.rapidapi.com/submissions/${token}`,
-        {
-          headers: {
-            'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
-            'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com',
-          },
-        }
+    for (const testCase of testCases) {
+      const submissionPayload = {
+        source_code: sourceCode,
+        language_id: 54, // Optional: map this dynamically based on 'language'
+        stdin: testCase.input,
+        expected_output: testCase.expectedOutput,
+      };
+
+      const judgeRes = await axios.post(
+        `${JUDGE0_URL}?base64_encoded=false&wait=true`,
+        submissionPayload,
+        JUDGE0_OPTIONS
       );
 
-      result = resultRes.data;
-      if (result.status?.description !== 'In Queue') break;
-      await new Promise((r) => setTimeout(r, 1500));
+      results.push({
+        input: testCase.input,
+        expected: testCase.expectedOutput,
+        stdout: judgeRes.data.stdout,
+        stderr: judgeRes.data.stderr,
+        status: judgeRes.data.status,
+      });
     }
 
-    // Save submission
-    const submission = await Submission.create({
-      userId,
-      questionId,
-      code,
+    const isAccepted = results.every((r) => r.status.description === 'Accepted');
+
+    const submission = new Submission({
+      questionSlug,
+      questionNumber,
+      sourceCode,
       language,
-      verdict: result.status?.description,
-      output: result.stdout || '',
-      error: result.stderr || result.compile_output || '',
-      time: result.time,
-      memory: result.memory,
+      verdict: isAccepted ? 'Accepted' : 'Wrong Answer',
+      testResults: results,
     });
 
-    // If verdict is Accepted, mark question as solved
-    if (result.status?.description === 'Accepted') {
-      await Question.findByIdAndUpdate(questionId, { solved: true });
-    }
+    await submission.save();
 
-    res.json({ message: 'Submission successful', submission });
+    res.json({
+      verdict: submission.verdict,
+      results: results,
+    });
   } catch (err) {
-    console.error('Judge0 error:', err.message);
-    res.status(500).json({ message: 'Code execution failed' });
+    console.error('Judge0 error:', err?.response?.data || err.message);
+    res.status(500).json({ error: 'Code execution failed' });
   }
 };
 

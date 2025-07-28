@@ -46,46 +46,91 @@ export default function RegisterForm() {
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="bg-white p-8 rounded-2xl shadow-md w-full max-w-lg space-y-4"
+            className="card p-10 w-full max-w-xl space-y-8 bg-white/80 dark:bg-gray-900/80 rounded-3xl shadow-2xl border border-indigo-100 backdrop-blur-md animate-fade-in"
         >
-            <h2 className="text-2xl font-bold text-center">Create an Account</h2>
-
-            <input {...register('name', { required: true })} placeholder="Full Name" className="input" />
-            {errors.name && <p className="text-red-500 text-sm">Name is required.</p>}
-
-            <input {...register('institute', { required: true })} placeholder="Institute" className="input" />
-            {errors.institute && <p className="text-red-500 text-sm">Institute is required.</p>}
-
-            <input
-                {...register('linkedin', { required: true, validate: validateLinkedIn })}
-                placeholder="LinkedIn Profile URL"
-                className="input"
+            <div className="text-center">
+                <h2 className="text-3xl font-extrabold mb-2 text-indigo-900 dark:text-yellow-400 drop-shadow-lg">Create an Account</h2>
+                <p className="text-muted text-base">Join CodeArena to start your coding journey</p>
+            </div>
+            <div className="space-y-1">
+                <label className="block text-base font-semibold text-indigo-900 dark:text-yellow-300">Full Name</label>
+                <input {...register('name', { required: 'Name is required' })} placeholder="John Doe" className="input bg-white/90 dark:bg-gray-800/80 border border-indigo-200 focus:border-indigo-500 rounded-xl shadow-sm" />
+                {errors.name && <p className="text-error text-sm">{errors.name.message}</p>}
+            </div>
+            <div className="space-y-1">
+                <label className="block text-base font-semibold text-indigo-900 dark:text-yellow-300">Institute</label>
+                <input {...register('institute', { required: 'Institute is required' })} placeholder="Your university or college" className="input bg-white/90 dark:bg-gray-800/80 border border-indigo-200 focus:border-indigo-500 rounded-xl shadow-sm" />
+                {errors.institute && <p className="text-error text-sm">{errors.institute.message}</p>}
+            </div>
+            <div className="space-y-1">
+                <label className="block text-base font-semibold text-indigo-900 dark:text-yellow-300">LinkedIn Profile</label>
+                <input
+                    {...register('linkedin', { 
+                        required: 'LinkedIn profile is required', 
+                        validate: (value) => validateLinkedIn(value) || 'Please enter a valid LinkedIn profile URL (e.g., https://www.linkedin.com/in/username)'
+                    })}
+                    placeholder="linkedin.com/in/username"
+                    className="input bg-white/90 dark:bg-gray-800/80 border border-indigo-200 focus:border-indigo-500 rounded-xl shadow-sm"
+                />
+                {errors.linkedin && <p className="text-error text-sm">{typeof errors.linkedin.message === 'string' ? errors.linkedin.message : 'Invalid LinkedIn URL.'}</p>}
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1">
+                    <label className="block text-base font-semibold text-indigo-900 dark:text-yellow-300">Age</label>
+                    <input 
+                        {...register('age', { 
+                            required: 'Age is required', 
+                            min: { value: 13, message: 'Must be at least 13 years old' } 
+                        })} 
+                        placeholder="18" 
+                        type="number" 
+                        className="input bg-white/90 dark:bg-gray-800/80 border border-indigo-200 focus:border-indigo-500 rounded-xl shadow-sm" 
+                    />
+                    {errors.age && <p className="text-error text-sm">{errors.age.message}</p>}
+                </div>
+            <div className="space-y-1">
+                <label className="block text-base font-semibold text-indigo-900 dark:text-yellow-300">Email</label>
+                <input 
+                    {...register('email', { 
+                        required: 'Email is required',
+                        pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email address' }
+                    })} 
+                    placeholder="you@example.com" 
+                    type="email" 
+                    className="input bg-white/90 dark:bg-gray-800/80 border border-indigo-200 focus:border-indigo-500 rounded-xl shadow-sm" 
+                />
+                {errors.email && <p className="text-error text-sm">{errors.email.message}</p>}
+            </div>
+        </div>
+        <div className="space-y-1">
+            <label className="block text-base font-semibold text-indigo-900 dark:text-yellow-300">Password</label>
+            <input 
+                {...register('password', { 
+                    required: 'Password is required', 
+                    minLength: { value: 6, message: 'Password must be at least 6 characters' } 
+                })} 
+                placeholder="••••••••" 
+                type="password" 
+                className="input bg-white/90 dark:bg-gray-800/80 border border-indigo-200 focus:border-indigo-500 rounded-xl shadow-sm" 
             />
-            {errors.linkedin && <p className="text-red-500 text-sm">Invalid LinkedIn URL.</p>}
-
-            <input {...register('age', { required: true, min: 13 })} placeholder="Age" type="number" className="input" />
-            {errors.age && <p className="text-red-500 text-sm">Valid age is required (13+).</p>}
-
-            <input {...register('email', { required: true })} placeholder="Email" type="email" className="input" />
-            {errors.email && <p className="text-red-500 text-sm">Email is required.</p>}
-
-            <input {...register('password', { required: true, minLength: 6 })} placeholder="Password" type="password" className="input" />
-            {errors.password && <p className="text-red-500 text-sm">Password must be 6+ characters.</p>}
-
-            <button type="submit" className="btn-primary w-full" disabled={loading}>
-                {loading ? 'Registering...' : 'Register'}
-            </button>
-
-            <div className="text-center text-sm">or</div>
-
-            <button
-                type="button"
-                onClick={googleLogin}
-                className="w-full flex items-center justify-center gap-2 border py-2 rounded-xl hover:bg-gray-100 transition"
-            >
-                <img src="/google-icon.svg" alt="Google" className="w-5 h-5" />
-                Continue with Google
-            </button>
-        </form>
+            {errors.password && <p className="text-error text-sm">{errors.password.message}</p>}
+        </div>
+        <button type="submit" className="btn-primary w-full rounded-xl shadow-md hover:scale-105 transition-transform duration-200" disabled={loading}>
+            {loading ? 'Creating Account...' : 'Create Account'}
+        </button>
+        <div className="relative flex items-center justify-center">
+            <div className="border-t border-gray-300 w-full"></div>
+            <span className="bg-white dark:bg-gray-800 px-2 text-base text-muted">or continue with</span>
+            <div className="border-t border-gray-300 w-full"></div>
+        </div>
+        <button
+            type="button"
+            onClick={googleLogin}
+            className="w-full flex items-center justify-center gap-2 border border-gray-300 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition font-semibold shadow-sm"
+        >
+            <img src="/google-icon.svg" alt="Google" className="w-5 h-5" />
+            Google
+        </button>
+    </form>
     )
 }

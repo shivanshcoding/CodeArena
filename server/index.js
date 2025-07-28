@@ -8,6 +8,8 @@ import questionRoutes from './routes/questionRoutes.js';
 import submissionRoutes from './routes/submissionRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import aiAssistantRoutes from './routes/aiAssistantRoutes.js';
+import duelRoutes from './routes/duelRoutes.js';
 
 dotenv.config();
 connectDB();
@@ -31,6 +33,8 @@ app.use('/api/submissions', submissionRoutes)
 app.use('/api/questions', questionRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/profile', userRoutes)
+app.use('/api/ai-assistant', aiAssistantRoutes)
+app.use('/api/duels', duelRoutes)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () =>

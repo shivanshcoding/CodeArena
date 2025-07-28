@@ -24,14 +24,16 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Login</h2>
-      {err && <p className="text-red-500">{err}</p>}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input type="email" name="email" placeholder="Email" className="w-full border px-3 py-2" onChange={handleChange} />
-        <input type="password" name="password" placeholder="Password" className="w-full border px-3 py-2" onChange={handleChange} />
-        <button type="submit" className="w-full bg-green-600 text-white py-2 rounded">Login</button>
-      </form>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-950 via-indigo-900 to-blue-800">
+      <div className="w-full max-w-md p-10 bg-white/80 dark:bg-gray-900/80 rounded-3xl shadow-2xl border border-indigo-100 backdrop-blur-md animate-fade-in">
+        <h2 className="text-3xl font-extrabold mb-6 text-indigo-900 dark:text-yellow-400 drop-shadow-lg text-center">Login</h2>
+        {err && <p className="text-red-500 text-center mb-4">{err}</p>}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <input type="email" name="email" placeholder="Email" className="w-full input bg-white/90 dark:bg-gray-800/80 border border-indigo-200 focus:border-indigo-500 rounded-xl shadow-sm px-4 py-3 text-base" onChange={handleChange} />
+          <input type="password" name="password" placeholder="Password" className="w-full input bg-white/90 dark:bg-gray-800/80 border border-indigo-200 focus:border-indigo-500 rounded-xl shadow-sm px-4 py-3 text-base" onChange={handleChange} />
+          <button type="submit" className="w-full btn-primary rounded-xl shadow-md hover:scale-105 transition-transform duration-200 py-3 text-lg font-bold" >Login</button>
+        </form>
+      </div>
     </div>
   );
 }

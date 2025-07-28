@@ -1,20 +1,201 @@
-@import "tailwindcss/preflight";
-@import "tailwindcss/utilities";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+@import "tailwindcss";
+
+/* AI Assistant Toggle Styles */
+.toggle-checkbox {
+  right: 0;
+  z-index: 5;
+  transition: all 0.3s;
+  border-color: #ccc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-checkbox:checked {
+  right: 4px;
+  border-color: #3b82f6;
+  background-color: #3b82f6;
+}
+
+.toggle-label {
+  transition: all 0.3s ease;
+  border-radius: 9999px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode adjustments */
+.dark .toggle-checkbox {
+  border-color: #4b5563;
+}
+
+.dark .toggle-checkbox:checked {
+  border-color: #3b82f6;
+  background-color: #3b82f6;
+}
 
 :root {
+  /* Modern color palette */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #111827;
+  --primary: #4f46e5; /* Indigo 600 */
+  --primary-dark: #4338ca; /* Indigo 700 */
+  --primary-light: #818cf8; /* Indigo 400 */
+  --secondary: #8b5cf6; /* Violet 500 */
+  --secondary-dark: #7c3aed; /* Violet 600 */
+  --accent: #ec4899; /* Pink 500 */
+  --success: #10b981; /* Emerald 500 */
+  --warning: #f59e0b; /* Amber 500 */
+  --error: #ef4444; /* Red 500 */
+  --info: #3b82f6; /* Blue 500 */
+  --muted: #6b7280; /* Gray 500 */
+  
+  /* UI Elements */
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+  --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --input-bg: #f9fafb;
+  --input-border: #d1d5db;
+  --input-focus: #4f46e5;
+  --input-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+  
+  /* Typography */
+  --font-sans: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Fira Code', monospace;
+  --font-heading: 'Poppins', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f172a; /* Slate 900 */
+    --foreground: #f8fafc; /* Slate 50 */
+    --primary: #818cf8; /* Indigo 400 */
+    --primary-dark: #6366f1; /* Indigo 500 */
+    --card-bg: #1e293b; /* Slate 800 */
+    --card-border: #334155; /* Slate 700 */
+    --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+    --input-bg: #1e293b; /* Slate 800 */
+    --input-border: #475569; /* Slate 600 */
+    --input-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
   }
 }
 
+/* Base Styles */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
 body {
-  background-color: var(--background);
+  background: var(--background);
   color: var(--foreground);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: var(--foreground);
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+code, pre {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+/* Modern UI Components */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 1rem;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow);
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--foreground);
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--input-focus);
+  box-shadow: var(--input-shadow);
+}
+
+.input::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+/* Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px -1px rgba(79, 70, 229, 0.3);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(139, 92, 246, 0.2);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px -1px rgba(139, 92, 246, 0.3);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
 }

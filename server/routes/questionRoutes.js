@@ -7,7 +7,7 @@ import {
   submitSolution,
   updateTestCases,
 } from '../controllers/questionController.js';
-import { authenticateJWT } from '../middleware/authMiddleware.js';
+import { authenticateJWT } from '../middleware/auth.js';
 
 const router = express.Router();
 

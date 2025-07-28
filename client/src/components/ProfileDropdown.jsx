@@ -51,10 +51,10 @@ export default function ProfileDropdown() {
                     </Link>
 
                     <div className="profile-grid">
-                        <Link href="/my-lists">My Lists</Link>
+                        <Link href="/dashboard">Dashboard</Link>
                         <Link href="/submissions">Submissions</Link>
+                        <Link href="/duels">My Duels</Link>
                         <Link href="/progress">Progress</Link>
-                        <Link href="/points">Points</Link>
                     </div>
 
                     <div className="profile-tags">

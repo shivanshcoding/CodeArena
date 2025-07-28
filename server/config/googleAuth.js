@@ -10,28 +10,43 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: '/api/auth/google/callback',
+      proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
+        console.log('Google profile received:', { 
+          id: profile.id,
+          displayName: profile.displayName,
+          emails: profile.emails?.length,
+          photos: profile.photos?.length
+        });
+        
         const email = profile.emails?.[0]?.value;
         const photo = profile.photos?.[0]?.value || '';
 
-        if (!email) return done(new Error('No email received from Google'), null);
+        if (!email) {
+          console.error('No email received from Google');
+          return done(new Error('No email received from Google'), null);
+        }
 
         let user = await User.findOne({ email });
 
         if (!user) {
+          console.log('Creating new user with Google data:', { email, name: profile.displayName });
           // 👇 Create new user with minimal fields
           user = await User.create({
-            name: profile.displayName,
+            name: profile.displayName || 'Google User',
             email,
             photo,
-            password: '',          // no password
+            password: '',          // no password for Google users
             username: null,        // to be filled in /complete-profile
             age: 0,
             institute: '',
             linkedin: '',
           });
+          console.log('New user created with ID:', user._id);
+        } else {
+          console.log('Existing user found with ID:', user._id);
         }
 
         return done(null, user);
