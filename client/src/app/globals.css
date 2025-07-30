@@ -33,29 +33,29 @@
 }
 
 :root {
-  /* Modern color palette */
-  --background: #ffffff;
-  --foreground: #111827;
-  --primary: #4f46e5; /* Indigo 600 */
-  --primary-dark: #4338ca; /* Indigo 700 */
-  --primary-light: #818cf8; /* Indigo 400 */
-  --secondary: #8b5cf6; /* Violet 500 */
-  --secondary-dark: #7c3aed; /* Violet 600 */
-  --accent: #ec4899; /* Pink 500 */
-  --success: #10b981; /* Emerald 500 */
-  --warning: #f59e0b; /* Amber 500 */
-  --error: #ef4444; /* Red 500 */
-  --info: #3b82f6; /* Blue 500 */
-  --muted: #6b7280; /* Gray 500 */
+  /* LeetCode-inspired Dark Theme Palette */
+  --background: #1a1a1a; /* Dark background */
+  --foreground: #e0e0e0; /* Light gray text */
+  --primary: #007bff; /* Blue for accents/buttons */
+  --primary-dark: #0056b3; /* Darker blue */
+  --primary-light: #66b3ff; /* Lighter blue */
+  --secondary: #6c757d; /* Gray for secondary elements */
+  --secondary-dark: #5a6268; /* Darker gray */
+  --accent: #ffc107; /* Yellow for highlights */
+  --success: #28a745; /* Green for success */
+  --warning: #ffc107; /* Yellow for warnings */
+  --error: #dc3545; /* Red for errors */
+  --info: #17a2b8; /* Cyan for info */
+  --muted: #adb5bd; /* Lighter gray for muted text */
   
   /* UI Elements */
-  --card-bg: #ffffff;
-  --card-border: #e5e7eb;
-  --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --input-bg: #f9fafb;
-  --input-border: #d1d5db;
-  --input-focus: #4f46e5;
-  --input-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+  --card-bg: #2d2d2d; /* Darker card background */
+  --card-border: #444444; /* Subtle card border */
+  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Darker shadow */
+  --input-bg: #3a3a3a; /* Dark input background */
+  --input-border: #555555; /* Input border */
+  --input-focus: #007bff; /* Blue focus */
+  --input-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Blue shadow on focus */
   
   /* Typography */
   --font-sans: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
@@ -65,16 +65,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0f172a; /* Slate 900 */
-    --foreground: #f8fafc; /* Slate 50 */
-    --primary: #818cf8; /* Indigo 400 */
-    --primary-dark: #6366f1; /* Indigo 500 */
-    --card-bg: #1e293b; /* Slate 800 */
-    --card-border: #334155; /* Slate 700 */
-    --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
-    --input-bg: #1e293b; /* Slate 800 */
-    --input-border: #475569; /* Slate 600 */
-    --input-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+    --background: #1a1a1a;
+    --foreground: #e0e0e0;
+    --primary: #007bff;
+    --primary-dark: #0056b3;
+    --card-bg: #2d2d2d;
+    --card-border: #444444;
+    --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    --input-bg: #3a3a3a;
+    --input-border: #555555;
+    --input-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
 }
 

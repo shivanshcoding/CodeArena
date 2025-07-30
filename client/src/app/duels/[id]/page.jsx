@@ -137,45 +137,45 @@ function DuelDetailContent() {
   const renderDuelStatus = (status) => {
     switch (status) {
       case 'pending':
-        return <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">Waiting for opponent</span>;
+        return <span className="px-3 py-1 bg-yellow-600 text-white rounded-full text-sm">Waiting for opponent</span>;
       case 'active':
-        return <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">Active</span>;
+        return <span className="px-3 py-1 bg-green-600 text-white rounded-full text-sm">Active</span>;
       case 'completed':
-        return <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">Completed</span>;
+        return <span className="px-3 py-1 bg-blue-600 text-white rounded-full text-sm">Completed</span>;
       case 'cancelled':
-        return <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">Cancelled</span>;
+        return <span className="px-3 py-1 bg-gray-600 text-white rounded-full text-sm">Cancelled</span>;
       default:
-        return <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">{status}</span>;
+        return <span className="px-3 py-1 bg-gray-600 text-white rounded-full text-sm">{status}</span>;
     }
   };
 
   const renderParticipantStatus = (participant) => {
     if (!participant.hasSubmitted) {
-      return <span className="text-yellow-600">Working on solution</span>;
+      return <span className="text-yellow-400">Working on solution</span>;
     }
     
     if (participant.result && participant.result.status === 'Accepted') {
-      return <span className="text-green-600">Solved ✓</span>;
+      return <span className="text-green-400">Solved ✓</span>;
     }
     
-    return <span className="text-red-600">Attempted</span>;
+    return <span className="text-red-400">Attempted</span>;
   };
 
   if (loading) {
     return (
-      <div className="p-6 flex justify-center items-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      <div className="p-6 flex justify-center items-center min-h-[60vh] bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6 max-w-4xl mx-auto">
+      <div className="p-6 max-w-4xl mx-auto bg-background text-foreground">
         <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
           <p>{error}</p>
         </div>
-        <Link href="/duels" className="text-blue-600 hover:underline">
+        <Link href="/duels" className="text-accent hover:underline flex items-center">
           Back to Duels
         </Link>
       </div>
@@ -184,11 +184,11 @@ function DuelDetailContent() {
 
   if (!duel) {
     return (
-      <div className="p-6 max-w-4xl mx-auto">
+      <div className="p-6 max-w-4xl mx-auto bg-background text-foreground">
         <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
           <p>Duel not found</p>
         </div>
-        <Link href="/duels" className="text-blue-600 hover:underline">
+        <Link href="/duels" className="text-accent hover:underline">
           Back to Duels
         </Link>
       </div>
@@ -196,9 +196,9 @@ function DuelDetailContent() {
   }
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="p-6 max-w-6xl mx-auto bg-background text-foreground">
       <div className="mb-6">
-        <Link href="/duels" className="text-blue-600 hover:underline flex items-center">
+        <Link href="/duels" className="flex items-center text-muted-foreground mb-2">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
           </svg>
@@ -207,10 +207,10 @@ function DuelDetailContent() {
       </div>
 
       <div className="bg-white shadow-md rounded-lg overflow-hidden mb-6">
-        <div className="p-6">
+        <div className="card p-6">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h1 className="text-2xl font-bold">{duel.title}</h1>
+              <h1 className="text-3xl font-bold text-primary mb-4">{duel.title}</h1>
               <div className="mt-2">{renderDuelStatus(duel.status)}</div>
             </div>
             

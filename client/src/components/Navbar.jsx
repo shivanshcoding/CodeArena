@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import ProfileDropdown from './ProfileDropdown';
-import '@/styles/Navbar.css'; // ✅ Make sure this path is correct!
+
 import { useState } from 'react';
 
 const Navbar = () => {
@@ -10,14 +10,14 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="nav">
-      <div className="nav-left">
-        <Link href="/" className="nav-logo">CodeArena</Link>
-        <Link href="/problems" className="nav-link">Problems</Link>
-        <Link href="/duels" className="nav-link">Duels</Link>
-        <Link href="/contest" className="nav-link">Contests</Link>
-        <Link href="/explore" className="nav-link">Explore</Link>
-        <Link href="/interview" className="nav-link">Interview</Link>
+    <nav className="bg-card-bg text-foreground p-4 shadow-card-shadow flex justify-between items-center">
+      <div className="flex items-center space-x-4">
+        <Link href="/" className="text-primary text-2xl font-bold">CodeArena</Link>
+        <Link href="/problems" className="text-muted hover:text-primary transition-colors duration-200">Problems</Link>
+        <Link href="/duels" className="text-muted hover:text-primary transition-colors duration-200">Duels</Link>
+        <Link href="/contest" className="text-muted hover:text-primary transition-colors duration-200">Contests</Link>
+        <Link href="/explore" className="text-muted hover:text-primary transition-colors duration-200">Explore</Link>
+        <Link href="/interview" className="text-muted hover:text-primary transition-colors duration-200">Interview</Link>
         
         {/* Mobile menu button */}
         <button 
@@ -32,26 +32,26 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu */}
-      <div className={`md:hidden absolute top-16 left-0 right-0 bg-white shadow-md z-50 transition-all duration-300 ${isMenuOpen ? 'block' : 'hidden'}`}>
+      <div className={`md:hidden absolute top-16 left-0 right-0 bg-card-bg shadow-card-shadow z-50 transition-all duration-300 ${isMenuOpen ? 'block' : 'hidden'}`}>
         <div className="flex flex-col p-4 space-y-3">
-          <Link href="/problems" className="nav-link block">Problems</Link>
-          <Link href="/duels" className="nav-link block">Duels</Link>
-          <Link href="/contest" className="nav-link block">Contests</Link>
-          <Link href="/explore" className="nav-link block">Explore</Link>
-          <Link href="/interview" className="nav-link block">Interview</Link>
+          <Link href="/problems" className="block text-foreground hover:text-primary transition-colors duration-200 py-2">Problems</Link>
+          <Link href="/duels" className="block text-foreground hover:text-primary transition-colors duration-200 py-2">Duels</Link>
+          <Link href="/contest" className="block text-foreground hover:text-primary transition-colors duration-200 py-2">Contests</Link>
+          <Link href="/explore" className="block text-foreground hover:text-primary transition-colors duration-200 py-2">Explore</Link>
+          <Link href="/interview" className="block text-foreground hover:text-primary transition-colors duration-200 py-2">Interview</Link>
         </div>
       </div>
 
-      <div className="nav-right">
+      <div className="flex items-center space-x-4">
         {user ? (
           <>
-            <span className="nav-profile">@{user.username}</span>
+            <span className="text-primary">@{user.username}</span>
             <ProfileDropdown />
           </>
         ) : (
           <>
-            <Link href="/login" className="nav-btn">Login</Link>
-            <Link href="/register" className="nav-btn">Register</Link>
+            <Link href="/login" className="btn btn-secondary">Login</Link>
+            <Link href="/register" className="btn btn-primary">Register</Link>
           </>
         )}
       </div>

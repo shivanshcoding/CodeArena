@@ -82,69 +82,69 @@ function DashboardContent() {
   if (loading) {
     return (
       <div className="p-6 flex justify-center items-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-6 sm:p-10">
-      <div className="max-w-7xl mx-auto bg-gray-800 bg-opacity-40 backdrop-filter backdrop-blur-lg rounded-3xl shadow-2xl p-6 sm:p-10 border border-gray-700 border-opacity-60 animate-fade-in">
+    <div className="min-h-screen bg-background text-foreground p-6 sm:p-10">
+      <div className="card max-w-7xl mx-auto p-6 sm:p-10 animate-fade-in">
 
-      <h1 className="text-4xl font-extrabold text-center mb-10 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500 drop-shadow-lg">Your Dashboard</h1>
+      <h1 className="text-4xl font-extrabold text-center mb-10 text-primary drop-shadow-lg">Your Dashboard</h1>
 
       {error && (
-        <div className="bg-red-800 bg-opacity-30 border-l-4 border-red-500 text-red-300 p-4 mb-6 rounded-lg shadow-md">
+        <div className="bg-error bg-opacity-30 border-l-4 border-error text-error p-4 mb-6 rounded-lg shadow-md">
           <p>{error}</p>
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-        <div className="bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-sm rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-xl border border-gray-600 border-opacity-70">
-          <h2 className="text-xl font-semibold mb-3 text-gray-200">Problems Solved</h2>
-          <div className="text-4xl font-bold text-blue-400">{stats?.problemsSolved || 0}</div>
+        <div className="card p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
+          <h2 className="text-xl font-semibold mb-3 text-foreground">Problems Solved</h2>
+          <div className="text-4xl font-bold text-accent">{stats?.problemsSolved || 0}</div>
         </div>
         
         <div className="bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-sm rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-xl border border-gray-600 border-opacity-70">
-          <h2 className="text-xl font-semibold mb-3 text-gray-200">Submissions</h2>
-          <div className="text-4xl font-bold text-green-400">{stats?.totalSubmissions || 0}</div>
+          <h2 className="text-xl font-semibold mb-3 text-foreground">Submissions</h2>
+          <div className="text-4xl font-bold text-success">{stats?.totalSubmissions || 0}</div>
         </div>
         
         <div className="bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-sm rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-xl border border-gray-600 border-opacity-70">
-          <h2 className="text-xl font-semibold mb-3 text-gray-200">Duels Won</h2>
-          <div className="text-4xl font-bold text-purple-400">{stats?.duelsWon || 0}</div>
+          <h2 className="text-xl font-semibold mb-3 text-foreground">Duels Won</h2>
+          <div className="text-4xl font-bold text-primary">{stats?.duelsWon || 0}</div>
         </div>
         
         <div className="bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-sm rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-xl border border-gray-600 border-opacity-70">
-          <h2 className="text-xl font-semibold mb-3 text-gray-200">Streak</h2>
-          <div className="text-4xl font-bold text-orange-400">{stats?.streak || 0} days</div>
+          <h2 className="text-xl font-semibold mb-3 text-foreground">Streak</h2>
+          <div className="text-4xl font-bold text-warning">{stats?.streak || 0} days</div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        <div className="bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-sm rounded-xl shadow-lg overflow-hidden border border-gray-600 border-opacity-70">
-          <div className="px-6 py-4 border-b border-gray-600 bg-gray-700 bg-opacity-60">
-            <h2 className="text-2xl font-semibold text-gray-100">Recent Submissions</h2>
+        <div className="card overflow-hidden">
+          <div className="px-6 py-4 border-b border-card-border bg-background-light">
+            <h2 className="text-2xl font-semibold text-primary">Recent Submissions</h2>
           </div>
           
           {recentSubmissions.length > 0 ? (
-            <div className="divide-y divide-gray-600">
+            <div className="divide-y divide-card-border">
               {recentSubmissions.map((submission) => (
-                <div key={submission._id} className="p-4 hover:bg-gray-700 transition-colors duration-200">
+                <div key={submission._id} className="p-4 hover:bg-background-light transition-colors duration-200">
                   <div className="flex justify-between items-start">
                     <div>
                       <Link 
                         href={`/problems/${submission.questionId.slug}/${submission.questionId.number}`}
-                        className="font-medium text-blue-400 hover:underline text-lg"
+                        className="font-medium text-accent hover:underline text-lg"
                       >
                         {submission.questionId.title}
                       </Link>
-                    <div className="text-sm text-gray-400 mt-1">
+                    <div className="text-sm text-muted mt-1">
                         {new Date(submission.createdAt).toLocaleString()}
                       </div>
                     </div>
                     <div>
-                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${submission.status === 'Accepted' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`}>
+                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${submission.status === 'Accepted' ? 'bg-success text-white' : 'bg-error text-white'}`}>
                         {submission.status}
                       </span>
                     </div>
@@ -153,40 +153,40 @@ function DashboardContent() {
               ))}  
             </div>
           ) : (
-            <div className="p-6 text-center text-gray-400">
+            <div className="p-6 text-center text-muted">
               <p className="mb-4">No recent submissions found. Time to solve some problems!</p>
-              <Link href="/problems" className="text-blue-400 hover:underline mt-2 inline-block px-4 py-2 border border-blue-400 rounded-lg transition-colors duration-200 hover:bg-blue-400 hover:text-white">
+              <Link href="/problems" className="btn btn-secondary mt-2">
                 Solve Problems
               </Link>
             </div>
           )}
           
-          <div className="px-6 py-3 bg-gray-700 bg-opacity-60 border-t border-gray-600">
-            <Link href="/submissions" className="text-blue-400 hover:underline text-sm">
+          <div className="px-6 py-3 bg-background-light border-t border-card-border">
+            <Link href="/submissions" className="text-accent hover:underline text-sm">
               View all submissions
             </Link>
           </div>
         </div>
         
-        <div className="bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-sm rounded-xl shadow-lg overflow-hidden border border-gray-600 border-opacity-70">
-          <div className="px-6 py-4 border-b border-gray-600 bg-gray-700 bg-opacity-60">
-            <h2 className="text-2xl font-semibold text-gray-100">Recent Duels</h2>
+        <div className="card overflow-hidden">
+          <div className="px-6 py-4 border-b border-card-border bg-background-light">
+            <h2 className="text-2xl font-semibold text-primary">Recent Duels</h2>
           </div>
           
           {recentDuels.length > 0 ? (
-            <div className="divide-y divide-gray-600">
+            <div className="divide-y divide-card-border">
               {recentDuels.map((duel) => (
-                <div key={duel._id} className="p-4 hover:bg-gray-700 transition-colors duration-200">
+                <div key={duel._id} className="p-4 hover:bg-background-light transition-colors duration-200">
                   <div className="flex justify-between items-start">
                     <div>
                       <Link 
                         href={`/duels/${duel._id}`}
-                        className="font-medium text-blue-400 hover:underline text-lg"
+                        className="font-medium text-accent hover:underline text-lg"
                       >
                         {duel.title}
                       </Link>
                       <div className="flex items-center mt-1 space-x-3">
-                        <span className="text-sm text-gray-400">
+                        <span className="text-sm text-muted">
                           {duel.questionId.title}
                         </span>
                         <span className="text-sm font-semibold">

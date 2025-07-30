@@ -10,7 +10,9 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 export default function DuelsPage() {
   return (
     <ProtectedRoute>
-      <DuelsContent />
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background p-4">
+        <DuelsContent />
+      </div>
     </ProtectedRoute>
   );
 }
@@ -101,26 +103,26 @@ function DuelsContent() {
 
   if (loading) {
     return (
-      <div className="p-6 flex justify-center items-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      <div className="flex justify-center items-center min-h-[calc(100vh-80px)]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="card p-6 max-w-6xl mx-auto w-full">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">DSA Duels</h1>
+        <h1 className="text-3xl font-extrabold text-primary drop-shadow-lg">DSA Duels</h1>
         <Link 
           href="/duels/create" 
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+          className="btn btn-primary"
         >
           Create Duel
         </Link>
       </div>
 
       {error && (
-        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
+        <div className="bg-error border-l-4 border-error text-error p-4 mb-4">
           <p>{error}</p>
         </div>
       )}
@@ -128,13 +130,13 @@ function DuelsContent() {
       <div className="mb-6">
         <div className="flex border-b">
           <button
-            className={`px-4 py-2 font-medium ${activeTab === 'public' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+            className={`px-4 py-2 font-medium text-lg rounded-t-lg ${activeTab === 'public' ? 'bg-primary text-white' : 'text-muted hover:text-primary hover:bg-card-bg-light'}`}
             onClick={() => setActiveTab('public')}
           >
             Public Duels
           </button>
           <button
-            className={`px-4 py-2 font-medium ${activeTab === 'my' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+            className={`px-4 py-2 font-medium text-lg rounded-t-lg ${activeTab === 'my' ? 'bg-primary text-white' : 'text-muted hover:text-primary hover:bg-card-bg-light'}`}
             onClick={() => setActiveTab('my')}
           >
             My Duels
@@ -145,44 +147,44 @@ function DuelsContent() {
       {activeTab === 'public' && (
         <div>
           {publicDuels.length === 0 ? (
-            <div className="text-center py-10 bg-gray-50 rounded-lg">
-              <p className="text-gray-500">No public duels available. Create one to get started!</p>
+            <div className="text-center py-10 bg-card-bg rounded-lg">
+              <p className="text-muted">No public duels available. Create one to get started!</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
-                <thead className="bg-gray-50">
+            <div className="overflow-x-auto card">
+              <table className="min-w-full text-foreground">
+                <thead className="bg-background-light">
                   <tr>
-                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Problem</th>
-                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Difficulty</th>
-                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created By</th>
-                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Limit</th>
-                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                    <th className="py-3 px-4 text-left text-xs font-medium text-muted uppercase tracking-wider">Title</th>
+                    <th className="py-3 px-4 text-left text-xs font-medium text-muted uppercase tracking-wider">Problem</th>
+                    <th className="py-3 px-4 text-left text-xs font-medium text-muted uppercase tracking-wider">Difficulty</th>
+                    <th className="py-3 px-4 text-left text-xs font-medium text-muted uppercase tracking-wider">Created By</th>
+                    <th className="py-3 px-4 text-left text-xs font-medium text-muted uppercase tracking-wider">Status</th>
+                    <th className="py-3 px-4 text-left text-xs font-medium text-muted uppercase tracking-wider">Time Limit</th>
+                    <th className="py-3 px-4 text-left text-xs font-medium text-muted uppercase tracking-wider">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-card-border">
                   {publicDuels.map((duel) => (
-                    <tr key={duel._id} className="hover:bg-gray-50">
-                      <td className="py-4 px-4 whitespace-nowrap">{duel.title}</td>
+                    <tr key={duel._id} className="hover:bg-background-light transition-colors duration-200">
+                      <td className="py-4 px-4 whitespace-nowrap text-foreground">{duel.title}</td>
                       <td className="py-4 px-4 whitespace-nowrap">
-                        <Link href={`/problems/${duel.questionId.slug}/${duel.questionId.number}`} className="text-blue-600 hover:underline">
+                        <Link href={`/problems/${duel.questionId.slug}/${duel.questionId.number}`} className="text-accent hover:underline">
                           {duel.questionId.title}
                         </Link>
                       </td>
                       <td className="py-4 px-4 whitespace-nowrap">
                         {renderDifficulty(duel.questionId.difficulty)}
                       </td>
-                      <td className="py-4 px-4 whitespace-nowrap">{duel.createdBy.username}</td>
+                      <td className="py-4 px-4 whitespace-nowrap text-foreground">{duel.createdBy.username}</td>
                       <td className="py-4 px-4 whitespace-nowrap">{renderDuelStatus(duel.status)}</td>
-                      <td className="py-4 px-4 whitespace-nowrap">{duel.timeLimit} min</td>
+                      <td className="py-4 px-4 whitespace-nowrap text-foreground">{duel.timeLimit} min</td>
                       <td className="py-4 px-4 whitespace-nowrap">
                         {duel.status === 'pending' && duel.createdBy._id !== user.id && (
                           <button
                             onClick={() => handleJoinDuel(duel._id)}
                             disabled={joinLoading}
-                            className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors disabled:opacity-50"
+                            className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             {joinLoading ? 'Joining...' : 'Join'}
                           </button>
@@ -190,7 +192,7 @@ function DuelsContent() {
                         {duel.status === 'active' && (
                           <Link 
                             href={`/duels/${duel._id}`}
-                            className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+                            className="btn btn-success"
                           >
                             View
                           </Link>

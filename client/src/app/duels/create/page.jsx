@@ -84,9 +84,9 @@ function CreateDuelContent() {
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
+    <div className="p-6 max-w-3xl mx-auto bg-background text-foreground">
       <div className="mb-6">
-        <Link href="/duels" className="text-blue-600 hover:underline flex items-center">
+        <Link href="/duels" className="text-accent hover:underline flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
           </svg>
@@ -94,18 +94,18 @@ function CreateDuelContent() {
         </Link>
       </div>
 
-      <div className="bg-white shadow-md rounded-lg p-6">
-        <h1 className="text-2xl font-bold mb-6">Create a New Duel</h1>
+      <div className="card p-6">
+        <h1 className="text-2xl font-bold mb-6 text-primary">Create a New Duel</h1>
 
         {error && (
-          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
+          <div className="bg-error border-l-4 border-error text-error p-4 mb-4">
             <p>{error}</p>
           </div>
         )}
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="title" className="block text-sm font-medium text-muted mb-1">
               Duel Title
             </label>
             <input
@@ -113,27 +113,27 @@ function CreateDuelContent() {
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input input-bordered"
               placeholder="Enter a title for your duel"
               required
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="questionId" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="questionId" className="block text-sm font-medium text-muted mb-1">
               Select Question
             </label>
             {questionsLoading ? (
               <div className="flex items-center space-x-2">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
-                <span className="text-sm text-gray-500">Loading questions...</span>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                <span className="text-sm text-muted">Loading questions...</span>
               </div>
             ) : (
               <select
                 id="questionId"
                 value={questionId}
                 onChange={(e) => setQuestionId(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="input input-bordered"
                 required
               >
                 <option value="">Select a question</option>
@@ -147,7 +147,7 @@ function CreateDuelContent() {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="timeLimit" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="timeLimit" className="block text-sm font-medium text-muted mb-1">
               Time Limit (minutes)
             </label>
             <input
@@ -157,10 +157,10 @@ function CreateDuelContent() {
               onChange={(e) => setTimeLimit(e.target.value)}
               min="5"
               max="120"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input input-bordered"
               required
             />
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-muted mt-1">
               Participants will have this much time to solve the problem once the duel starts.
             </p>
           </div>
@@ -171,13 +171,13 @@ function CreateDuelContent() {
                 type="checkbox"
                 checked={isPublic}
                 onChange={(e) => setIsPublic(e.target.checked)}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className="checkbox checkbox-primary"
               />
-              <span className="ml-2 text-sm text-gray-700">
+              <span className="ml-2 text-sm text-muted">
                 Make this duel public (anyone can join)
               </span>
             </label>
-            <p className="text-sm text-gray-500 mt-1 ml-6">
+            <p className="text-sm text-muted mt-1 ml-6">
               If unchecked, only people with the invite link can join.
             </p>
           </div>
@@ -186,14 +186,14 @@ function CreateDuelContent() {
             <button
               type="button"
               onClick={() => router.push('/duels')}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 mr-2 hover:bg-gray-50 transition-colors"
+              className="btn btn-secondary mr-2"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading || questionsLoading}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
+              className="btn btn-primary disabled:opacity-50"
             >
               {loading ? 'Creating...' : 'Create Duel'}
             </button>

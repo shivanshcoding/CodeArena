@@ -14,7 +14,7 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(`/profile/${username}`)
+        const res = await axios.get(`/api/profile/${username}`);
         setProfile(res.data)
       } catch (err) {
         console.error(err)
@@ -28,42 +28,56 @@ export default function ProfilePage() {
   if (!profile) return <div className="text-center mt-10">Loading profile...</div>
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-xl shadow">
-      <div className="flex gap-6 items-center">
-        <img
-          src={profile.photo || '/avatar.png'}
-          alt="Avatar"
-          className="w-20 h-20 rounded-full border"
-        />
-        <div>
-          <h1 className="text-2xl font-bold">{profile.name}</h1>
-          <p className="text-gray-600">@{profile.username}</p>
+    <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 flex items-center justify-center">
+      <div className="card max-w-3xl w-full p-8 animate-fade-in">
+        <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start">
+          <img
+            src={profile.photo || '/avatar.png'}
+            alt="Avatar"
+            className="w-24 h-24 rounded-full border-4 border-primary shadow-lg object-cover"
+          />
+          <div className="text-center sm:text-left">
+            <h1 className="text-4xl font-extrabold text-primary drop-shadow-lg">{profile.name}</h1>
+            <p className="text-muted text-xl mt-1">@{profile.username}</p>
+          </div>
         </div>
-      </div>
 
-      <div className="mt-6 space-y-3 text-sm text-gray-700">
-        <p><strong>Institute:</strong> {profile.institute || 'N/A'}</p>
-        <p><strong>Email:</strong> {profile.email}</p>
-        <p><strong>Age:</strong> {profile.age || 'N/A'}</p>
-        <p>
-          <strong>LinkedIn:</strong>{' '}
-          {profile.linkedin ? (
-            <a href={profile.linkedin} className="text-blue-600" target="_blank">
-              {profile.linkedin}
-            </a>
-          ) : 'N/A'}
-        </p>
-        <p><strong>Joined:</strong> {new Date(profile.createdAt).toDateString()}</p>
-      </div>
+        <div className="mt-8 space-y-4 text-lg text-foreground">
+          <p><strong className="text-primary">Institute:</strong> {profile.institute || 'N/A'}</p>
+          <p><strong className="text-primary">Email:</strong> {profile.email}</p>
+          <p><strong className="text-primary">Age:</strong> {profile.age || 'N/A'}</p>
+          <p>
+            <strong className="text-primary">LinkedIn:</strong>{' '}
+            {profile.linkedin ? (
+              <a href={profile.linkedin} className="text-accent hover:underline transition-colors duration-300" target="_blank" rel="noopener noreferrer">
+                {profile.linkedin}
+              </a>
+            ) : 'N/A'}
+          </p>
+          <p><strong className="text-primary">Joined:</strong> {new Date(profile.createdAt).toDateString()}</p>
+        </div>
 
-      <div className="mt-6">
-        <h3 className="font-semibold text-lg mb-2">Your Stats</h3>
-        <ul className="grid grid-cols-2 gap-4 text-center text-sm">
-          <li className="bg-gray-100 p-4 rounded-lg">0 Submissions</li>
-          <li className="bg-gray-100 p-4 rounded-lg">0 Points</li>
-          <li className="bg-gray-100 p-4 rounded-lg">0 Duels</li>
-          <li className="bg-gray-100 p-4 rounded-lg">0 Interviews</li>
-        </ul>
+        <div className="mt-8">
+          <h3 className="font-extrabold text-2xl text-primary drop-shadow-lg mb-4">Your Stats</h3>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+            <li className="card p-6 transform hover:scale-105 transition-all duration-300">
+              <p className="text-3xl font-bold text-accent">0</p>
+              <p className="text-muted mt-2">Submissions</p>
+            </li>
+            <li className="card p-6 transform hover:scale-105 transition-all duration-300">
+              <p className="text-3xl font-bold text-accent">0</p>
+              <p className="text-muted mt-2">Points</p>
+            </li>
+            <li className="card p-6 transform hover:scale-105 transition-all duration-300">
+              <p className="text-3xl font-bold text-accent">0</p>
+              <p className="text-muted mt-2">Duels</p>
+            </li>
+            <li className="card p-6 transform hover:scale-105 transition-all duration-300">
+              <p className="text-3xl font-bold text-accent">0</p>
+              <p className="text-muted mt-2">Interviews</p>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   )

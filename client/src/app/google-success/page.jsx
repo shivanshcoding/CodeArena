@@ -76,13 +76,13 @@ export default function GoogleSuccessPage() {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-black text-white p-4 sm:p-6">
-      <div className="max-w-md w-full p-8 bg-gray-800 bg-opacity-40 backdrop-filter backdrop-blur-lg rounded-3xl shadow-2xl border border-gray-700 border-opacity-60 text-center animate-fade-in">
+    <div className="min-h-screen flex items-center justify-center bg-background text-white p-4 sm:p-6">
+      <div className="card max-w-md w-full p-8 text-center animate-fade-in">
         {status === 'loading' && (
           <div className="flex flex-col items-center">
             <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mx-auto mb-6"></div>
-            <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500 drop-shadow-lg mb-3">Processing Login</h2>
-            <p className="text-gray-300 text-lg">Please wait while we authenticate you...</p>
+            <h2 className="text-3xl font-extrabold text-primary drop-shadow-lg mb-3">Processing Login</h2>
+            <p className="text-muted text-lg">Please wait while we authenticate you...</p>
           </div>
         )}
 
@@ -114,7 +114,7 @@ export default function GoogleSuccessPage() {
               </svg>
             </div>
             <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-500 drop-shadow-lg mb-3">Authentication Failed</h2>
-            <p className="text-red-300 text-lg mb-4">{error}</p>
+            <p className="text-error text-lg mb-4">{error}</p>
             <p className="text-gray-300 text-lg">Redirecting to login page...</p>
           </div>
         )}

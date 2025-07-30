@@ -3,14 +3,16 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { getDuelByInviteCode, joinDuel } from '@/lib/duels';
+import { joinDuelByInviteCode, joinDuel } from '@/lib/duels';
 import { useAuth } from '@/context/AuthContext';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
 export default function JoinDuelPage() {
   return (
     <ProtectedRoute>
-      <JoinDuelContent />
+      <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ backgroundImage: 'linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12)' }}>
+        <JoinDuelContent />
+      </div>
     </ProtectedRoute>
   );
 }
@@ -78,80 +80,78 @@ function JoinDuelContent() {
 
   if (loading) {
     return (
-      <div className="p-6 flex justify-center items-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      <div className="flex justify-center items-center min-h-[calc(100vh-80px)]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <div className="bg-white shadow-md rounded-lg overflow-hidden">
-        <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Join Duel</h1>
+    <div className="p-6 max-w-2xl mx-auto w-full bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl shadow-2xl border border-gray-700">
+      <div className="p-6">
+        <h1 className="text-3xl font-extrabold text-white drop-shadow-lg mb-4 text-center">Join Duel</h1>
           
           {error && (
-            <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
+            <div className="bg-red-800 bg-opacity-50 border-l-4 border-red-500 text-red-200 p-4 mb-4 rounded-md">
               <p>{error}</p>
             </div>
           )}
           
           {success ? (
-            <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
+            <div className="bg-green-800 bg-opacity-50 border-l-4 border-green-500 text-green-200 p-4 mb-4 rounded-md">
               <p>You have successfully joined this duel! Redirecting to duel page...</p>
             </div>
           ) : duel ? (
             <div>
               <div className="mb-6">
-                <h2 className="text-lg font-semibold mb-2">Duel Information</h2>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="mb-2"><span className="font-medium">Title:</span> {duel.title}</p>
-                  <p className="mb-2">
-                    <span className="font-medium">Problem:</span>{' '}
-                    <Link href={`/problems/${duel.questionId.slug}/${duel.questionId.number}`} className="text-blue-600 hover:underline">
+                <h2 className="text-xl font-semibold text-white mb-2">Duel Information</h2>
+                <div className="bg-gray-800 bg-opacity-50 p-4 rounded-lg border border-gray-700">
+                  <p className="mb-2 text-gray-200"><span className="font-medium text-gray-100">Title:</span> {duel.title}</p>
+                  <p className="mb-2 text-gray-200">
+                    <span className="font-medium text-gray-100">Problem:</span>{' '}
+                    <Link href={`/problems/${duel.questionId.slug}/${duel.questionId.number}`} className="text-blue-400 hover:underline">
                       {duel.questionId.title}
                     </Link>
                   </p>
-                  <p className="mb-2">
-                    <span className="font-medium">Difficulty:</span>{' '}
-                    <span className={duel.questionId.difficulty === 'Easy' ? 'text-green-600' : duel.questionId.difficulty === 'Medium' ? 'text-yellow-600' : 'text-red-600'}>
+                  <p className="mb-2 text-gray-200">
+                    <span className="font-medium text-gray-100">Difficulty:</span>{' '}
+                    <span className={duel.questionId.difficulty === 'Easy' ? 'text-green-400' : duel.questionId.difficulty === 'Medium' ? 'text-yellow-400' : 'text-red-400'}>
                       {duel.questionId.difficulty}
                     </span>
                   </p>
-                  <p className="mb-2"><span className="font-medium">Time Limit:</span> {duel.timeLimit} minutes</p>
-                  <p><span className="font-medium">Created By:</span> {duel.createdBy.username}</p>
+                  <p className="mb-2 text-gray-200"><span className="font-medium text-gray-100">Time Limit:</span> {duel.timeLimit} minutes</p>
+                  <p className="text-gray-200"><span className="font-medium text-gray-100">Created By:</span> {duel.createdBy.username}</p>
                 </div>
               </div>
               
               <div className="flex justify-between">
                 <Link 
                   href="/duels" 
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="px-4 py-2 border border-gray-600 rounded-md text-gray-300 hover:bg-gray-700 transition-colors"
                 >
                   Cancel
                 </Link>
                 <button
                   onClick={handleJoin}
                   disabled={joining || error}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {joining ? 'Joining...' : 'Join Duel'}
                 </button>
               </div>
             </div>
           ) : (
-            <div className="text-center py-8">
-              <p className="text-gray-500 mb-4">Invalid or expired invite code.</p>
+            <div className="text-center py-8 text-gray-200">
+              <p className="mb-4">Invalid or expired invite code.</p>
               <Link 
                 href="/duels" 
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
               >
                 Back to Duels
               </Link>
             </div>
           )}
         </div>
-      </div>
-    </div>
-  );
+  </div>
+  ); 
 }
